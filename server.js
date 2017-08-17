@@ -11,6 +11,8 @@ app.listen(8080, function() {
 });
 
 app.get('/getUser', function(req, res) {
+  var userJson = file.readFileSync('./data/sampleUser.json', 'utf8');
+  res.send(JSON.parse(userJson));
 
   /*
   var seed = parseInt(req.query.seed);
@@ -40,4 +42,3 @@ app.get('/computeSum', function(req, res) {
   }
 });
 */
-s
