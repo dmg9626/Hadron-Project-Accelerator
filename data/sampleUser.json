@@ -2,6 +2,8 @@
   "FirstName": "Drew",
   "LastName": "Graham",
   "Email": "dmg9626@gmail.com",
+  "ImageURL": "./data/image.png",
   "MajorID": "1",
-  "AcademicStatusID": "1"
+  "AcademicStatusID": "1",
+  "Description": "I dunno, some stuff about me if we wanna add a description for users or something maybe idk"
 }
