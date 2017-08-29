@@ -1,0 +1,11 @@
+{
+	"ProjectName": "Cool Hats Club",
+	"Creator": "Emily Pazienza",
+	"Email": "lizardman@drexel.edu",
+	"University": "Drexel University",
+	"MajorID": "1",
+	"AcademicStatusID": "1",
+	"ProjectScope": "One Quarter",
+	"ImageURL": "./data/coolHat.png",
+	"Description": "The official cool hat club."
+}
