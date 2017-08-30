@@ -7,6 +7,7 @@ function Query(){
 utils.inherits(Query, EventEmitter);
 
 Query.prototype.getUser = function(con, studentJson){
+	var user = {};
 	var self = this;
 	con.query("SELECT u.UserID, u.FirstName, u.LastName, cm.Major, cas.Status FROM Users AS u" +
 		  "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID" +
@@ -18,16 +19,15 @@ Query.prototype.getUser = function(con, studentJson){
 					console.log(err);
 				}
 				else{
-					rows.forEach(function(r){
-						var user = {
+					var r = row[0];
+						user = {
 							uid: r["UserID"],
 							fname: r["FirstName"],
 							lname: r["LastName"],
 							major: r["Major"],
 							acstat: r["Status"]
 						};
-					});
-				}
-			}
-
+					}
+				self.emit("success", user); // emit user data
+				});
 }
