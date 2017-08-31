@@ -20,3 +20,12 @@ app.post('/getProject', function(req, res) {
   var projJson = file.readFileSync('./data/sampleProject.json', 'utf8');
   res.send(projJson);
 });
+
+app.post('/getUsersName', function(req, res) {
+	var userJson = file.readFileSync('./data/sampleUser.json', 'utf8');
+	res.send(userJson);
+});
+
+app.post('/login', function(req, res) {
+	res.send("success");
+})

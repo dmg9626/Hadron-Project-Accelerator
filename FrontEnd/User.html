@@ -41,7 +41,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="getUserName(); getUserData()">
 
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -51,17 +51,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Logo</a>
+        <a class="navbar-brand" href="/Home.html">HPA</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="/project.html">Projects</a></li>
-          <li><a href="#">Contact</a></li>
+          <li class="active"><a href="/User.html">User</a></li>
+          <li><a href="/Projects.html">Projects</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li><a href="/Login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
       </div>
     </div>
@@ -70,33 +68,38 @@
   <!-- center of page -->
   <div class="container-fluid text-center">
     <div class="row content">
-      <div class="col-sm-2 sidenav">
-        <p><a href="#">Link</a></p>
-        <p><a href="#">Link</a></p>
-        <p><a href="#">Link</a></p>
-      </div>
+        <div class="col-sm-2 sidenav">
+          <h4 id="loggedInUser">You are not logged in...</h4>
+        </div>
       <!-- this is where user data goes -->
-      <div id="userData" class="col-sm-8 text-left">
-        <h4>Press the button below to get an example user's data</h4>
-        <input type='button' value='Get User' onclick='getUserData()'/>
-      </div>
-      <div class="col-sm-2 sidenav">
-        <div class="well">
-          <p>ADS</p>
-        </div>
-        <div class="well">
-          <p>ADS</p>
-        </div>
-      </div>
+      <div id="userData" class="col-sm-8 text-left"></div>
     </div>
   </div>
 
   <footer class="container-fluid text-center">
-    <p>Footer Text</p>
+    <h4>Hadron Project Accelerator</h4>
   </footer>
 
 
   <script>
+    function getUserName()
+    {
+      var URL = "http://localhost:8080/getUsersName";
+      var name = document.getElementById("loggedInUser");
+      $.ajax({
+        type: "POST",
+        url: URL,
+        dataType: "html",
+        success: function(msg) {
+          var json = JSON.parse(msg);
+          name.innerHTML = "You are logged in as " + json.FirstName;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert("Error fetching " + URL);
+        }
+      });
+    }
+
     function getUserData()
     {
       var URL = "http://localhost:8080/getUser";
