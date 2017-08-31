@@ -105,6 +105,7 @@
       </div>
 		
 		<script>
+			// submit() - makes POST to /createUser
 			function submit() {
 				var firstname = $("#firstName").val();
 				var lastname = $("#lastName").val();
@@ -112,25 +113,37 @@
 				var major = $("#major").val();
 				var academicStatus = $("#academicStatus").val();
 				
-				var URL = "http://localhost:8080/createUser";
-				var data  = {
-						fname: firstname,
-						lname: lastname,
-						email: email,
-						majorID: major,
-						academicStatusID
+				// form validation
+				if(!firstname)
+					alert("Please enter a first name");
+				else if(!lastname)
+					alert("Please enter a last name");
+				else if(!email)
+					alert("Please enter an email");
+				else if(major == "unselected")
+					alert("Please select a major");
+				else if(academicStatus == "unselected")
+					alert("Please select an academic status");
+				else { // make ajax call
+					var URL = "http://localhost:8080/createUser";
+					var data  = {
+							fname: firstname,
+							lname: lastname,
+							email: email,
+							majorID: major,
+							academicStatusID: academicStatus
 					};
-				$.ajax({
-					type: "POST",
-					url: URL,
-					contentType: "application/json; charset=utf-8",
-					data: data,
-					dataType: "html",
-					success: function(msg) {
-						alert(msg)
-					}
-				});
-				
+					$.ajax({
+						type: "POST",
+						url: URL,
+						contentType: "application/json; charset=utf-8",
+						data: data,
+						dataType: "html",
+						success: function(msg) {
+							alert(msg)
+						}
+					});
+				}
 			}
 		</script>
 
