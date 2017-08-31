@@ -20,20 +20,35 @@ Query.prototype.getUser = function(con, studentJson){
 				}
 				else{
 					var r = row[0];
-						user = {
-							fname: r["FirstName"],
-							lname: r["LastName"],
-							major: r["Major"],
-							acstat: r["Status"]
-						};
-					}
+					user = {
+						fname: r["FirstName"],
+						lname: r["LastName"],
+						major: r["Major"],
+						acstat: r["Status"]
+					};
+				}
 				self.emit("success", user); // emit user data
-				});
+			});
 }
 
-Query.prototype.getAllProjects = function(con){
+/*
+ * Search for projects in the DB.
+ * User can specify filters (optional)
+ */
+Query.prototype.getAllProjects = function(con, filters){
 	var projects = Array();
 	var self = this;
+	var query = "";
+	if (filters){
+		query = "SELECT p.Title, p.Tagline, p.Description," +
+		       	 "ct.Timeline, pt.Type, u.FirstName, u.LastName" +
+			 "FROM Projects AS p" +
+			 "JOIN Criteria_Timeline AS ct ON p.TimelineID = ct.TimelineID" +
+			 "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID" +
+			 "JOIN Users AS u ON p.UserID = u.UserID" +
+			 "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID" +
+			 "WHERE u.AcademicStatus"
+	}
 	con.query("SELECT p.Title, p.Tagline, p.Description," +
 		       	 "ct.Timeline, pt.Type, u.FirstName, u.LastName" +
 			 "FROM Projects AS p" +
