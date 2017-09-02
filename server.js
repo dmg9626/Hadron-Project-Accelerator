@@ -29,6 +29,18 @@ app.get('/getUser', function(req, res) {
 });
 
 /*
+ * Search projects in the db with or without filters.
+ * Expects filters to be a JSON object.
+ */
+app.post("/searchProjects", function(req, res) {
+	var q = new query();
+	q.once("success", function(projects){
+		res.send(projects);
+	}
+	q.getAllProjects(con, req.body.filters);
+}
+
+/*
  * Insert a new user into the database
  */
 app.post("/createUser", function(req, res){
