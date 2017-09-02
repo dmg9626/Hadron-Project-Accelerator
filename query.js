@@ -38,24 +38,42 @@ Query.prototype.getUser = function(con, studentJson){
 Query.prototype.getAllProjects = function(con, filters){
 	var projects = Array();
 	var self = this;
-	var query = "";
+	var query = "SELECT p.Title, p.Tagline, p.Description," +
+		    "ct.Timeline, pt.Type, u.FirstName, u.LastName" +
+		    "FROM Projects AS p " +
+		    "JOIN Criteria_Timeline AS ct ON p.TimelineID = ct.TimelineID " +
+		    "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID " +
+	  	    "JOIN Users AS u ON p.UserID = u.UserID " +
+		    "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID " + 
+		    "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID ";
+
+	// add any filters the user may have spcified
 	if (filters){
-		query = "SELECT p.Title, p.Tagline, p.Description," +
-		       	 "ct.Timeline, pt.Type, u.FirstName, u.LastName" +
-			 "FROM Projects AS p" +
-			 "JOIN Criteria_Timeline AS ct ON p.TimelineID = ct.TimelineID" +
-			 "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID" +
-			 "JOIN Users AS u ON p.UserID = u.UserID" +
-			 "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID" +
-			 "WHERE u.AcademicStatus"
+		var addedWhereClause = 0;
+		if (filters.timelineID){
+			query += "WHERE ct.TimelineID = '" + filters.timelineID + "' ";
+			addedWhereClause = 1;
+		}
+		
+		if (filters.academicStatusID){
+			if (addedWhereClause) 
+				query += "AND ";
+			else
+				addedWhereClause = 1;
+
+			query += "WHERE cas.AcademicStatusID = '" + filters.academicStatusID + "' ";
+		}
+
+		if (filters.majorID){
+			if (addedWhereClause)
+				query += "AND ";
+			
+			query += "WHERE cm.MajorID = '" + filters.majorID + "'";
+		}
 	}
-	con.query("SELECT p.Title, p.Tagline, p.Description," +
-		       	 "ct.Timeline, pt.Type, u.FirstName, u.LastName" +
-			 "FROM Projects AS p" +
-		  "JOIN Criteria_Timeline AS ct ON p.TimelineID = ct.TimelineID" +
-		  "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID" +
-		  "JOIN Users AS u ON p.UserID = u.UserID",
-			function(err, rows, fields){
+
+	con.query(query,
+		  	function(err, rows, fields){
 				if (err){
 					console.log(err):
 				}
