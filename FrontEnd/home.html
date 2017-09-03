@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Hadron Project Accelerator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function login()
+      {
+        var URL = "http://localhost:8080/login";
+        var result = document.getElementById("result");
+        var email = document.getElementById("email").value;
+        var pass = document.getElementById("pass").value;
+
+        var jsonSeed = {
+        email: email,
+        pass: pass
+        };
+
+        $.ajax({
+          type: "POST",
+          url: URL,
+          data: jsonSeed,
+          datatype: "html",
+          success: function(msg) {
+            if (msg == "success")
+              window.location.href = "/user.html";
+            else
+            {
+              var html = "<h5 style=\"color:red\">Email or Password Incorrect</h5>";
+              result.innerHTML = html + result.innerHTML;
+            }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            alert("Error fetching " + URL);
+          }
+        })
+      }
+    </script>
+
+    <style>
+      /* Remove the navbar's default margin-bottom and rounded borders */
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+
+      .center {
+        text-align: center;
+        padding: 70px 0;
+      }
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {height: 450px}
+
+      body {
+        background-color: #f1f1f1;
+      }
+
+      /* Set black background color, white text and some padding */
+      footer {
+        background-color: #555;
+        color: white;
+        padding: 15px;
+      }
+
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {height:auto;}
+      }
+
+      img {
+        max-width: 98%;
+        max-height: 98%;
+        border-radius: 20px 20px 20px 20px;
+      }
+
+    </style>
+  </head>
+  <body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/home.html">HPA</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="/user.html">User</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid center">
+    <h3>Welcome to The Hadron Project Accelerator!</h3>
+    <img src='/data/HPA.jpg'>
+    <br><br>
+    <input type='button' value='Login' onclick='window.location.href = "/login.html"'/>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <h4>Hadron Project Accelerator</h4>
+  </footer>  
+
+  </body>
+ </html>
