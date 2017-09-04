@@ -8,6 +8,8 @@ var mysql = require("mysql");
 var filePath = require("path").join(__dirname, "db_pswd");
 var fs = require('fs');
 var pswd = fs.readFileSync(filePath).toString();
+console.log(pswd);
+pswd = pswd.trim();
 
 var con = mysql.createConnection({
 	host: "localhost",
@@ -24,17 +26,6 @@ app.listen(8080, function() {
   console.log('server running...');
 });
 
-app.get('/getUser', function(req, res) {
-  var userJson = file.readFileSync('./data/sampleUser.json', 'utf8');
-  res.send(userJson);
-
-});
-
-app.post('/getProject', function(req, res) {
-  var projJson = file.readFileSync('./data/sampleProject.json', 'utf8');
-  res.send(projJson);
-});
-
 app.post('/getUsersName', function(req, res) {
 	var userJson = file.readFileSync('./data/sampleUser.json', 'utf8');
 	res.send(userJson);
@@ -43,6 +34,38 @@ app.post('/getUsersName', function(req, res) {
 app.post('/login', function(req, res) {
 	res.send("success");
 });
+
+
+// Get project by ID
+app.post('/getProject', function(req, res) {
+	console.log('haha');
+	con.query("SELECT * FROM projects WHERE ProjectID = " + req.body.ProjectID + ";", function(err, rows, cols) {
+		if (err) {
+			console.log("Error during query execution: " + err);
+			res.send(err);
+		}
+		else {
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
+
+// Get user by ID
+app.get('/getUser', function(req, res) {
+	con.query("SELECT * FROM Users WHERE UserID = " + req.query.userID + ";", function(err, rows, cols) {
+		if (err) {
+			console.log("Error during query execution: " + err);
+			res.send(err);
+		}
+		else {
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
 
 /*
  * Search projects in the db with or without filters.
@@ -54,7 +77,7 @@ app.post("/searchProjects", function(req, res) {
 		res.send(projects);
 	});
 	q.getAllProjects(con, req.body.filters)
-})
+});
 	
 
 /*

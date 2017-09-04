@@ -21,41 +21,88 @@
               name.innerHTML = "You are logged in as " + json.FirstName;
             },
             error: function (xhr, ajaxOptions, thrownError) {
-              alert("Error fetching " + URL);
+              //alert("Error fetching " + URL);
             }
           });
         }
+			
+			function getUser(userID) {
+				var URL = "http://localhost:8080/getUser?userID=" + userID;
+				var user = undefined;
+				$.ajax({
+					type: "GET",
+					url: URL,
+					dataType: "html",
+					success: function(msg) {
+						user = msg;
+					}
+				});
+				return user;
+			}
 
         function getProjectData()
         {
         	var URL = "http://localhost:8080/getProject";
         	var div = document.getElementById("projectData");
+			var data = {
+				ProjectID: 1
+			};
 
         	$.ajax({
         		type: "POST",
         		url: URL,
         		dataType: "html",
+				data: data,
         		success: function(msg) {
-        			var json = JSON.parse(msg);
+        			var json = JSON.parse(msg)[0];
         			var response = "";
-        			response += "<h2>" + json.ProjectName + "</h2>\n";
+					var user = getUser(json.UserID);
+        			response += "<h2>" + json.Title + "</h2>\n";
         			response += "<img src='" + json.ImageURL;
         			response += "' style='width:150px;height:150px;'>\n";
-        			response += "<h3>" + json.Creator + "</h3>\n";
-        			response += "<h5><a href='mailto:" + json.Email;
-        			response += "'>" + json.Email + "</a></h5>\n";
+        			//response += "<h3>" + user.FirstName + " " + user.LastName + "</h3>\n";
+        			//response += "<h5><a href='mailto:" + user.Email;
+        			//response += "'>" + user.Email + "</a></h5>\n";
         			response += "<h3>" + json.University + "</h3>\n";
         			response += "<h4>" + json.Description + "</h5>\n";
         			response += "<h5>" + getMajor(json.MajorID) + "</h5>\n";
         			response += "<h5>" + getYear(json.AcademicStatusID) + "</h5>\n";
-        			response += "<h5>" + json.ProjectScope + "</h5>\n";
+        			response += "<h5>" + getTimeline(json.TimelineID) + "</h5>\n";
         			div.innerHTML = response;
         		},
         		error: function (xhr, ajaxOptions, thrownError) {
-        			alert("Error fetching " + URL);
+        			alert("Error fetching " + URL + ": " + thrownError);
         		}
         	});
         }
+
+			function getTimeline(timelineId) {
+				timeline = "<h5>Timeline not specified</h5>";
+				switch(parseInt(timelineId)) {
+					case 0:
+						timeline = "<h5>1-2 weeks</h5>";
+						break;
+					case 1:
+						timeline = "<h5>3 weeks - 1 month</h5>";
+						break;
+					case 2:
+						timeline = "<h5>1-2 months</h5>";
+						break;
+					case 3:
+						timeline = "<h5>2-6 months</h5>";
+						break;
+					case 4:
+						timeline = "<h5>6 months - 1 year</h5>";
+						break;
+					case 5:
+						timeline = "<h5>1-2 years</h5>";
+						break;
+					case 6:
+						timeline = "<h5>2 years +</h5>";
+						break;
+				}
+				return timeline;
+			}
 
         function getYear(academicStatusId) {
         	year = "<h4>Academic status not listed</h4>";
