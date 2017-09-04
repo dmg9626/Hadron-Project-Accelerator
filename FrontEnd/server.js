@@ -6,7 +6,9 @@ var query = require("./query");
 var bodyParser = require("body-parser");
 var mysql = require("mysql");
 var filePath = require("path").join(__dirname, "db_pswd");
+var fs = require('fs');
 var pswd = fs.readFileSync(filePath).toString();
+
 var con = mysql.createConnection({
 	host: "localhost",
 	user: "root",
@@ -50,9 +52,10 @@ app.post("/searchProjects", function(req, res) {
 	var q = new query();
 	q.once("success", function(projects){
 		res.send(projects);
-	}
-	q.getAllProjects(con, req.body.filters);
-}
+	});
+	q.getAllProjects(con, req.body.filters)
+})
+	
 
 /*
  * Insert a new user into the database

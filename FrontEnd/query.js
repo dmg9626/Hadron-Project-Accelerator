@@ -75,7 +75,7 @@ Query.prototype.getAllProjects = function(con, filters){
 	con.query(query,
 		  	function(err, rows, fields){
 				if (err){
-					console.log(err):
+					console.log(err);
 				}
 				else{
 					rows.forEach(function(r){
