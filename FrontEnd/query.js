@@ -9,14 +9,15 @@ utils.inherits(Query, EventEmitter);
 /*
  * Query the db for a specific user
  */
-Query.prototype.getUser = function(con, studentJson){
+Query.prototype.getUser = function(con, uid){
 	var user = {};
 	var self = this;
-	con.query("SELECT u.FirstName, u.LastName, u.UserImage, cm.Major, cas.Status FROM Users AS u" +
-		  "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID" +
-		  "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID" +
-		  	"WHERE FirstName = '" + studentJson.firstName + "'" +
-		       	"AND LastName = '" + studentJson.lastName + "'",
+	con.query("SELECT u.FirstName, u.LastName, u.UserImage, cm.Major, cas.Status FROM Users AS u " +
+		  "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID " +
+		  "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID " +
+		  "WHERE u.UserID = '" + uid + "'",
+		  /*	"WHERE FirstName = '" + studentJson.firstName + "'" +
+		       	"AND LastName = '" + studentJson.lastName + "'",*/
 			function(err, rows, fields){
 				if (err){
 					console.log(err);

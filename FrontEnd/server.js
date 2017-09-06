@@ -65,7 +65,14 @@ app.post('/getProject', function(req, res) {
 /*
  * Get user by ID
  */
-app.get('/getUser', function(req, res) {
+app.post('/getUser', function(req, res) {
+	var q = new query();
+	q.once("success", function(user){
+		res.send(user);
+	});
+	q.getUser(con, req.body.UserID);
+
+	/* ####### DEPRECATED #######
 	con.query("SELECT * FROM Users WHERE UserID = " + req.query.userID + ";", function(err, rows, cols) {
 		if (err) {
 			console.log("Error during query execution: " + err);
@@ -75,7 +82,7 @@ app.get('/getUser', function(req, res) {
 			console.log(rows);
 			res.send(rows);
 		}
-	});
+	});*/
 });
 
 
