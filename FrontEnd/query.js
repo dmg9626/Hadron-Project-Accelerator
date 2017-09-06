@@ -6,10 +6,13 @@ function Query(){
 }
 utils.inherits(Query, EventEmitter);
 
+/*
+ * Query the db for a specific user
+ */
 Query.prototype.getUser = function(con, studentJson){
 	var user = {};
 	var self = this;
-	con.query("SELECT u.FirstName, u.LastName, cm.Major, cas.Status FROM Users AS u" +
+	con.query("SELECT u.FirstName, u.LastName, u.UserImage, cm.Major, cas.Status FROM Users AS u" +
 		  "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID" +
 		  "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID" +
 		  	"WHERE FirstName = '" + studentJson.firstName + "'" +
@@ -23,6 +26,7 @@ Query.prototype.getUser = function(con, studentJson){
 					user = {
 						fname: r["FirstName"],
 						lname: r["LastName"],
+						img: r["UserImage"],
 						major: r["Major"],
 						acstat: r["Status"]
 					};
@@ -94,3 +98,6 @@ Query.prototype.getAllProjects = function(con, filters){
 				self.emit("success", projects); // emit success and projects array
 			});
 }
+
+utils.inherits(Query, EventEmitter);
+module.exports = Query;
