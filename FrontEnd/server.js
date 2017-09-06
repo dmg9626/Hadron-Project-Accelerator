@@ -36,10 +36,20 @@ app.post('/login', function(req, res) {
 });
 
 
-// Get project by ID
+/*
+ * Get project by ID
+ */
 app.post('/getProject', function(req, res) {
-	console.log('haha');
-	con.query("SELECT * FROM projects WHERE ProjectID = " + req.body.ProjectID + ";", function(err, rows, cols) {
+	console.log('Retrieving data for ProjectID = ' + req.body.ProjectID);
+
+	var q = new query();
+	q.once("success", function(project){
+		res.send(project);
+	});
+	q.getProject(con, req.body.ProjectID);
+	
+	// ####### DEPRECATED #######
+	/*con.query("SELECT * FROM projects WHERE ProjectID = " + req.body.ProjectID + ";", function(err, rows, cols) {
 		if (err) {
 			console.log("Error during query execution: " + err);
 			res.send(err);
@@ -48,11 +58,13 @@ app.post('/getProject', function(req, res) {
 			console.log(rows);
 			res.send(rows);
 		}
-	});
+	});*/
 });
 
 
-// Get user by ID
+/*
+ * Get user by ID
+ */
 app.get('/getUser', function(req, res) {
 	con.query("SELECT * FROM Users WHERE UserID = " + req.query.userID + ";", function(err, rows, cols) {
 		if (err) {
