@@ -36,6 +36,48 @@ Query.prototype.getUser = function(con, studentJson){
 }
 
 /*
+ * Query the db for a specific project
+ * Expects a projectID as the search filter
+ */
+Query.prototype.getProject = function(con, pid){
+	var project = {};
+	var self = this;
+	con.query("SELECT p.Title, p.Tagline, p.Description, " +
+		  "cpt.Type, " +
+		  "cas.Status, " + 
+		  "cm.Name, " +
+		  "ct.Timeline, " +
+		  "u.FirstName, u.LastName, u.Email " +
+		  "FROM Projects " +
+		  "JOIN Users AS u ON p.UserID = u.UserID " +
+		  "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID " +
+		  "JOIN Criteria_AcademicStatus AS cas ON p.AcademicStatusID = cas.AcademicStatusID " +
+		  "JOIN Criteria_Major AS cm ON p.MajorID = cm.MajorID " +
+		  "JOIN Criteria_Timeline AS ct ON p.TimelineID = ct.TimelineID " +
+		  "WHERE p.ProjectID = '" + pid + "'",
+			function(err, rows, fields){
+				if (err){
+					console.log(err);
+				}
+				else{
+					var r = row[0];
+					project = {
+						title: r["Title"],
+						tag: r["Tagline"],
+						desc: r["Description"],
+						type: r["Type"],
+						maj: r["Name"],
+						timeline: r["Timeline"],
+						fname: r["FirstName"],
+						lname: r["LastName"],
+						email: r["Email"]
+					};
+				}
+				self.emit("success", project); // emit project data
+			});
+}
+
+/*
  * Search for projects in the DB.
  * User can specify filters (optional)
  */
