@@ -12,7 +12,7 @@ utils.inherits(Query, EventEmitter);
 Query.prototype.getUser = function(con, uid){
 	var user = {};
 	var self = this;
-	con.query("SELECT u.FirstName, u.LastName, u.UserImage, cm.Major, cas.Status FROM Users AS u " +
+	con.query("SELECT u.FirstName, u.LastName, u.UserImage, cm.Name, cas.Status FROM Users AS u " +
 		  "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID " +
 		  "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID " +
 		  "WHERE u.UserID = '" + uid + "'",
@@ -28,7 +28,7 @@ Query.prototype.getUser = function(con, uid){
 						fname: r["FirstName"],
 						lname: r["LastName"],
 						img: r["UserImage"],
-						major: r["Major"],
+						major: r["Name"],
 						acstat: r["Status"]
 					};
 				}
@@ -49,7 +49,7 @@ Query.prototype.getProject = function(con, pid){
 		  "cm.Name, " +
 		  "ct.Timeline, " +
 		  "u.FirstName, u.LastName, u.Email " +
-		  "FROM Projects " +
+		  "FROM Projects AS p " +
 		  "JOIN Users AS u ON p.UserID = u.UserID " +
 		  "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID " +
 		  "JOIN Criteria_AcademicStatus AS cas ON p.AcademicStatusID = cas.AcademicStatusID " +
