@@ -57,3 +57,17 @@ app.post("/createUser", function(req, res){
 			}
 		  });
 });
+app.post("/createProject", function(req, res){
+	con.query("INSERT INTO Projects (Title,Tagline,Description)" +
+		  "VALUES (" + req.body.title + ", " + req.body.tline + ", " + req.body.description  + ")",
+		  function(err, result){
+		  	if (err){
+				console.log(err);
+				res.send("Failure");
+			}
+			else{
+				console.log("Successfully posted project ");
+				res.send("Success");
+			}
+		  });
+});

@@ -90,7 +90,13 @@
       </div>
     </div>
   </div>
-
+  <form>
+  <input type="text" id="title" value='enter title'>
+  <input type="text" id="tag" value='enter tagline'>
+  <input type="text" id="desc" value='enter description'>
+  <input type="button" value="Post project" onClick="postProj(this.form)"/>
+  </form>  
+  <div id="display"></div>
   <footer class="container-fluid text-center">
     <p>Footer Text</p>
   </footer>
@@ -161,6 +167,26 @@
       }
       return major;
     }
+    function postProj(form){
+	var title=form.title.value;
+	var tag=form.tag.value;
+	var desc=form.desc.value;
+	var URL="http://localhost:8080/createProject?title="+title+"&tline="+tag+"&description="+desc;
+	$.ajax({
+		type: 'GET',
+		url: URL,
+		contentType:"application/json; charset=utf-8",
+		data:"{n}",
+		dataType: 'html',
+		success: function(msg){
+			$('#display').html(msg);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			alert('Error contacting server!');
+		}
+	});
+}
+	
   </script>
 
   </body>
