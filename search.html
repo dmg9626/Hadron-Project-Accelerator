@@ -29,18 +29,18 @@
           datatype: "json",
           success: function(json) {
             var res = "";
+            res += "<table><tr><th>Title</th><th>Tag</th><th>Description";
+            res += "</th><th>Timeline</th><th>Creator Name</th></tr>";
             for (var i = 0; i < json.length; i++)
             {
               var proj = json[i];
-              res += "<table><tr><th>Title</th><th>Tag</th><th>Description";
-              res += "</th><th>Timeline</th><th>Creator Name</th></tr>";
               res += "<tr><td>" + proj["title"] + "</td><td>" + proj["tag"];
               res += "</td><td>" + proj["desc"] + "</td><td>";
               res += proj["timeline"] + "</td><td>" + proj["type"];
               res += "</td><td>" + proj["fname"] + " " + proj["lname"];
-              res += "</td></tr></table>\n<br>";
+              res += "</td></tr>\n";
             }
-            
+            res += "</table>\n";
             div.innerHTML = res;
           },
           error: function(xhr, ajaxOptions,  thrownError) {
@@ -152,7 +152,7 @@
           <br><br>
           <input type='button' value='Search' onclick='search()'/>
         </div>
-      <div id="projects" class="col-sm-8 text-left">haha lol</div>
+      <div id="projects" class="col-sm-8 text-left"></div>
     </div>
   </div>
 
