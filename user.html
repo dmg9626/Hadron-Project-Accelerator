@@ -86,8 +86,7 @@
 
 
   <script>
-    function getUserName()
-    {
+    function getUserName() {
       var URL = "http://localhost:8080/getUsersName";
       var name = document.getElementById("loggedInUser");
       $.ajax({
@@ -104,11 +103,10 @@
       });
     }
 
-    function getUserData()
-    {
+    function getUserData(userId = 1) {
       var URL = "http://localhost:8080/getUser";
 		var data = {
-			UserID: 1
+			UserID: userId
 		};
       $.ajax({
         type: "POST",
@@ -127,7 +125,7 @@
         }
       });
     }
-
+/*
     function getYear(academicStatusId) {
       year = "<h4>Academic status not listed</h4>";
       switch(parseInt(academicStatusId)) {
@@ -170,7 +168,7 @@
           break;
       }
       return major;
-    }
+    } */
   </script>
 
   </body>
