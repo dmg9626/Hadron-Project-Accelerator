@@ -32,13 +32,15 @@
             for (var i = 0; i < json.length; i++)
             {
               var proj = json[i];
-				  console.log(proj);
-              res += proj["title"] + " " + proj["tag"] + " ";
-              res += proj["desc"] + " " + proj["timeline"] + " ";
-              res += proj["type"] + " " + proj["fname"] + " ";
-              res += proj["lname"] + "\n<br>\n";
+              res += "<table><tr><th>Title</th><th>Tag</th><th>Description";
+              res += "</th><th>Timeline</th><th>Creator Name</th></tr>";
+              res += "<tr><td>" + proj["title"] + "</td><td>" + proj["tag"];
+              res += "</td><td>" + proj["desc"] + "</td><td>";
+              res += proj["timeline"] + "</td><td>" + proj["type"];
+              res += "</td><td>" + proj["fname"] + " " + proj["lname"];
+              res += "</td></tr></table>\n<br>";
             }
-				console.log(res);
+            
             div.innerHTML = res;
           },
           error: function(xhr, ajaxOptions,  thrownError) {
