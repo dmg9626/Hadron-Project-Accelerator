@@ -23,13 +23,14 @@ Query.prototype.getUser = function(con, uid){
 					console.log(err);
 				}
 				else{
-					var r = row[0];
+					var r = rows[0];
 					user = {
 						fname: r["FirstName"],
 						lname: r["LastName"],
 						img: r["UserImage"],
 						major: r["Name"],
-						acstat: r["Status"]
+						acstat: r["Status"],
+						email: r["Email"]
 					};
 				}
 				self.emit("success", user); // emit user data
