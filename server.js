@@ -93,6 +93,7 @@ app.post('/getUser', function(req, res) {
 app.post("/searchProjects", function(req, res) {
 	var q = new query();
 	q.once("success", function(projects){
+		console.log(projects);
 		res.send(projects);
 	});
 	q.getAllProjects(con, req.body.filters)
@@ -121,8 +122,9 @@ app.post("/createUser", function(req, res){
  * Insert a project into the database
  */
 app.post("/createProject", function(req, res){
-	con.query("INSERT INTO Projects (Title,Tagline,Description)" +
-		  "VALUES (" + req.body.title + ", " + req.body.tline + ", " + req.body.description  + ")",
+	con.query("INSERT INTO Projects (Title, Tagline, Description, TimelineID, ProjectTypeID, UserID, AcademicStatusID, MajorID)" +
+		  "VALUES ('" + req.body.title + "', '" + req.body.tline + "', '" + req.body.description + "', '" + req.body.timelineId + "', '" 
+		  + req.body.projectTypeId + "', '" + req.body.userId + "', '" + req.body.academicStatusId + "', '" + req.body.majorId + "')",
 		  function(err, result){
 		  	if (err){
 				console.log(err);

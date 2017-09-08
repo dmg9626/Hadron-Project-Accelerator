@@ -88,7 +88,7 @@ Query.prototype.getAllProjects = function(con, filters){
 	var projects = Array();
 	var self = this;
 	var query = "SELECT p.Title, p.Tagline, p.Description," +
-		    "ct.Timeline, pt.Type, u.FirstName, u.LastName " +
+		    "ct.Timeline, cpt.Type, u.FirstName, u.LastName " +
 		    "FROM Projects AS p " +
 		    "JOIN Criteria_Timeline AS ct ON p.TimelineID = ct.TimelineID " +
 		    "JOIN Criteria_ProjectType AS cpt ON p.ProjectTypeID = cpt.ProjectTypeID " +

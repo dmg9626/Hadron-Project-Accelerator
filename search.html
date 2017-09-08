@@ -26,17 +26,19 @@
           type: "POST",
           url: URL,
           data: data,
-          datatype: "html",
+          datatype: "json",
           success: function(json) {
             var res = "";
-            for (var i = 0; i < json; i++)
+            for (var i = 0; i < json.length; i++)
             {
               var proj = json[i];
-              res += proj["Title"] + " " + proj["Tagline"] + " ";
-              res += proj["Description"] + " " + proj["Timeline"] + " ";
-              res += proj["Type"] + " " + proj["FirstName"] + " ";
-              res += proj["LastName"] + "\n<br>\n";
+				  console.log(proj);
+              res += proj["title"] + " " + proj["tag"] + " ";
+              res += proj["desc"] + " " + proj["timeline"] + " ";
+              res += proj["type"] + " " + proj["fname"] + " ";
+              res += proj["lname"] + "\n<br>\n";
             }
+				console.log(res);
             div.innerHTML = res;
           },
           error: function(xhr, ajaxOptions,  thrownError) {
@@ -148,7 +150,7 @@
           <br><br>
           <input type='button' value='Search' onclick='search()'/>
         </div>
-      <div id="projects" class="col-sm-8 text-left"></div>
+      <div id="projects" class="col-sm-8 text-left">haha lol</div>
     </div>
   </div>
 
