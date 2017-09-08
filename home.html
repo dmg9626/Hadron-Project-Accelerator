@@ -7,40 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-      function login()
-      {
-        var URL = "http://localhost:8080/login";
-        var result = document.getElementById("result");
-        var email = document.getElementById("email").value;
-        var pass = document.getElementById("pass").value;
-
-        var jsonSeed = {
-        email: email,
-        pass: pass
-        };
-
-        $.ajax({
-          type: "POST",
-          url: URL,
-          data: jsonSeed,
-          datatype: "html",
-          success: function(msg) {
-            if (msg == "success")
-              window.location.href = "/user.html";
-            else
-            {
-              var html = "<h5 style=\"color:red\">Email or Password Incorrect</h5>";
-              result.innerHTML = html + result.innerHTML;
-            }
-          },
-          error: function (xhr, ajaxOptions, thrownError) {
-            alert("Error fetching " + URL);
-          }
-        })
-      }
-    </script>
-
     <style>
       /* Remove the navbar's default margin-bottom and rounded borders */
       .navbar {
@@ -98,6 +64,7 @@
         <ul class="nav navbar-nav">
           <li><a href="/user.html">User</a></li>
           <li><a href="/projects.html">Projects</a></li>
+          <lu><a href="/search.html">Search</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function search()
+      {
+        var URL = "http://localhost:8080/searchProjects";
+        var div = document.getElementById("projects");
+        var majorId = document.getElementById("major").value;
+        var acaStatId = document.getElementById("acaStat").value;
+        var time = document.getElementById("timeline").value;
+
+        var data = {
+          majorId: majorId,
+          academicStatusId: acaStatId,
+          timeline: time
+        };
+
+        $.ajax({
+          type: "POST",
+          url: URL,
+          data: data,
+          datatype: "html",
+          success: function(json) {
+            var response = "";
+            for (var i = 0; i < json; i++)
+            {
+              var proj = json[i];
+              res += proj["Title"] + " " + proj["Tagline"] + " ";
+              res += proj["Description"] + " " + proj["Timeline"] + " ";
+              res += proj["Type"] + " " + proj["FirstName"] + " ";
+              res += proj["LastName"] + "\n<br>\n";
+            }
+            div.innerHTML = res;
+          },
+          error: function(xhr, ajaxOptions,  thrownError) {
+            alert("Error fetching " + URL);
+          }
+        })
+      }
+    </script>
+    <style>
+      /* Remove the navbar's default margin-bottom and rounded borders */
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {height: 450px}
+
+      /* Set gray background color and 100% height */
+      .sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+        height: 100%;
+      }
+
+      /* Set black background color, white text and some padding */
+      footer {
+        background-color: #555;
+        color: white;
+        padding: 15px;
+      }
+
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {height:auto;}
+      }
+
+      img {
+        border-radius: 5px 5px 5px 5px;
+      }
+    </style>
+  </head>
+  <body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/home.html">HPA</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="/user.html">User</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <li class="active"><a href="/search.html">Search</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- center of page -->
+  <div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-3 sidenav">
+          <h4>Search Filters</h4>
+          <br>
+          <h5>Major</h5>
+          <select id="major">
+            <option value="">--</option>
+            <option value=0>Lebow College of Business</option>
+            <option value=1>College of Computing and Informatics</option>
+            <option value=2>College of Engineering</option>
+            <option value=3>Westphal College of Media Arts & Design</option>
+            <option value=4>College of Nursing and Health Professions</option>
+          </select>
+          <br>
+          <h5>Academic Status</h5>
+          <select id="acaStat">
+            <option value="">--</option>
+            <option value=0>Freshman</option>
+            <option value=1>Sophomore</option>
+            <option value=2>Pre-Junior</option>
+            <option value=3>Junior</option>
+            <option value=4>Senior</option>
+          </select>
+          <br>
+          <h5>Timeline</h5>
+          <select id="timeline">
+            <option value="">--</option>
+            <option value=0>1-2 weeks</option>
+            <option value=1>3 weeks - 1 month</option>
+            <option value=2>1-2 months</option>
+            <option value=3>2-6 months</option>
+            <option value=4>6 months - 1 year</option>
+            <option value=5>1-2 years</option>
+            <option value=6>2 years +</option>
+          </select>
+          <br><br>
+          <input type='button' value='Search' onclick='search()'/>
+        </div>
+      <div id="projects" class="col-sm-8 text-left"></div>
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <h4>Hadron Project Accelerator</h4>
+  </footer>
+  </body>
+</html>
