@@ -12,7 +12,7 @@ utils.inherits(Query, EventEmitter);
 Query.prototype.getUser = function(con, uid){
 	var user = {};
 	var self = this;
-	con.query("SELECT u.FirstName, u.LastName, u.UserImage, cm.Name, cas.Status FROM Users AS u " +
+	con.query("SELECT u.FirstName, u.LastName, u.UserImage, u.Email, cm.Name, cas.Status FROM Users AS u " +
 		  "JOIN Criteria_Major AS cm ON u.MajorID = cm.MajorID " +
 		  "JOIN Criteria_AcademicStatus AS cas ON u.AcademicStatusID = cas.AcademicStatusID " +
 		  "WHERE u.UserID = '" + uid + "'",

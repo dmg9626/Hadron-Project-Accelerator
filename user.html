@@ -106,19 +106,23 @@
 
     function getUserData()
     {
-      var URL = "http://localhost:8080/getUser?userID=1";
+      var URL = "http://localhost:8080/getUser";
+		var data = {
+			UserID: 1
+		};
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: URL,
+		  data: data,
         dataType: "html",
         success: function(res) {
-          var json = JSON.parse(res)[0];
-          var name = "<h2>" + json.FirstName + " " + json.LastName + "</h2>";
-          var image = "<img src='" + json.ImageURL + "' style='width:150px;height:150px;'>"
-          var email = "<h4>" + json.Email + "</h4>";
-          var year = getYear(json.AcademicStatusID);
-          var major = getMajor(json.MajorID);
-          var response = name  + image + email + year + major;
+          var json = JSON.parse(res);
+          var name = "<h2>" + json.fname + " " + json.lname + "</h2>";
+          var image = "<img src='" + json.img + "' style='width:150px;height:150px;'>"
+          var email = "<h4>" + json.email + "</h4>";
+			 var year = "<h4>Academic Status: " + json.acstat + "</h4>";
+			 var major = "<h4>Major: " + json.major + "</h4>";
+          var response = name + image + email + year + major;
           $("#userData").html(response);
         }
       });
