@@ -54,20 +54,15 @@
         		dataType: "html",
 				data: data,
         		success: function(msg) {
-        			var json = JSON.parse(msg)[0];
+        			var json = JSON.parse(msg);
         			var response = "";
-					var user = getUser(json.UserID);
-        			response += "<h2>" + json.Title + "</h2>\n";
-        			response += "<img src='" + json.ImageURL;
-        			response += "' style='width:150px;height:150px;'>\n";
-        			//response += "<h3>" + user.FirstName + " " + user.LastName + "</h3>\n";
-        			//response += "<h5><a href='mailto:" + user.Email;
-        			//response += "'>" + user.Email + "</a></h5>\n";
-        			response += "<h3>" + json.University + "</h3>\n";
-        			response += "<h4>" + json.Description + "</h5>\n";
-        			response += "<h5>" + getMajor(json.MajorID) + "</h5>\n";
-        			response += "<h5>" + getYear(json.AcademicStatusID) + "</h5>\n";
-        			response += "<h5>" + getTimeline(json.TimelineID) + "</h5>\n";
+        			response += "<h2>" + json.title + "</h2>\n";
+					response += "<h4>\"" + json.tag + "\"</h4>\n";
+					response += "<h5>" + json.desc + "</h5></br></br>";
+
+					response += "<h5>Project Creator: " + json.fname + " " + json.lname + " (" + json.email + ")</h5>";
+        			response += "<h5>Project Timeline: " + json.timeline + "</h5>\n";
+        			response += "<h5>Desired majors: " + json.maj + "</h5>\n";
         			div.innerHTML = response;
         		},
         		error: function (xhr, ajaxOptions, thrownError) {

@@ -61,7 +61,7 @@ Query.prototype.getProject = function(con, pid){
 					console.log(err);
 				}
 				else{
-					var r = row[0];
+					var r = rows[0];
 					project = {
 						title: r["Title"],
 						tag: r["Tagline"],
@@ -74,6 +74,7 @@ Query.prototype.getProject = function(con, pid){
 						email: r["Email"]
 					};
 				}
+				console.log(project);
 				self.emit("success", project); // emit project data
 			});
 }
